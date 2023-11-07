@@ -70,7 +70,7 @@ async function bookInstanceCreate({ index, book, imprint, due_back, status }) {
   };
   if (due_back != false) bookinstancedetail.due_back = due_back;
   if (status != false) bookinstancedetail.status = status;
-
+  console.log(`Debug: ${JSON.stringify(bookinstancedetail)}`);
   const bookinstance = new BookInstance(bookinstancedetail);
   await bookinstance.save();
   bookinstances[index] = bookinstance;

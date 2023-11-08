@@ -93,13 +93,15 @@ exports.author_create_post = [
   }),
 ];
 
+// Common function to get author and their books
+const getAuthorAndBooks = async (id) => {
+  return Promise.all([Author.findById(id).exec(), Book.find({ author: id }, "title summary").exec()]);
+};
+
 // Display Author delete form on GET.
 exports.author_delete_get = asyncHandler(async (req, res, next) => {
   // Get details of author and all their books (in parallel)
-  const [author, allBooksByAuthor] = await Promise.all([
-    Author.findById(req.params.id).exec(),
-    Book.find({ author: req.params.id }, "title summary").exec(),
-  ]);
+  const [author, allBooksByAuthor] = await getAuthorAndBooks(req.params.id);
 
   if (author === null) {
     // No results.
@@ -116,10 +118,7 @@ exports.author_delete_get = asyncHandler(async (req, res, next) => {
 // Handle Author delete on POST.
 exports.author_delete_post = asyncHandler(async (req, res, next) => {
   // Get details of author and all their books (in parallel)
-  const [author, allBooksByAuthor] = await Promise.all([
-    Author.findById(req.params.id).exec(),
-    Book.find({ author: req.params.id }, "title summary").exec(),
-  ]);
+  const [author, allBooksByAuthor] = await getAuthorAndBooks(req.params.id);
 
   if (allBooksByAuthor.length > 0) {
     // Author has books. Render in same way as for GET route.

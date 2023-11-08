@@ -21,6 +21,16 @@ async function main() {
   console.log("Debug: About to connect");
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected?");
+
+  console.log("Debug: Removing all genres");
+  await Genre.deleteMany({});
+  console.log("Debug: Removing all authors");
+  await Author.deleteMany({});
+  console.log("Debug: Removing all books");
+  await Book.deleteMany({});
+  console.log("Debug: Removing all bookinstances");
+  await BookInstance.deleteMany({});
+
   await createGenres();
   await createAuthors();
   await createBooks();
@@ -70,7 +80,6 @@ async function bookInstanceCreate({ index, book, imprint, due_back, status }) {
   };
   if (due_back != false) bookinstancedetail.due_back = due_back;
   if (status != false) bookinstancedetail.status = status;
-  console.log(`Debug: ${JSON.stringify(bookinstancedetail)}`);
   const bookinstance = new BookInstance(bookinstancedetail);
   await bookinstance.save();
   bookinstances[index] = bookinstance;

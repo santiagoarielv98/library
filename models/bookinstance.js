@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const BookInstanceSchema = new Schema({
   imprint: { type: String, required: true },
+  book: { type: Schema.Types.ObjectId, ref: "Book", required: true },
   status: {
     type: String,
     required: true,

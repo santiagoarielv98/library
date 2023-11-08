@@ -9,8 +9,8 @@ const asyncHandler = require("express-async-handler");
 // Common function to get book, book instances
 const getBookAndBookInstances = async (bookId) => {
   return Promise.all([
-    Book.findById(req.params.id).populate("author").populate("genre").exec(),
-    BookInstance.find({ book: req.params.id }).exec(),
+    Book.findById(bookId).populate("author").populate("genre").exec(),
+    BookInstance.find({ book: bookId }).exec(),
   ]);
 };
 

@@ -4,7 +4,8 @@ const RateLimit = require("express-rate-limit");
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  limit: 50, // 50 requests,
+  max: 500, // 1000 requests,
+  message: "Too many requests",
 });
 
 // Require controller modules.
